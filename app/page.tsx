@@ -1,65 +1,81 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import {useState} from "react";
+import './ProblemList.css';
+
+const sampleProblems = [
+  { id: "1", number: "1", name: "Two Sum", difficulty: "Easy", currentInterval: 1, lastSolveDate: new Date(), dueDate: new Date(), source: 'NeetCode', url: 'www.leetcode.com', isDone: false },
+  { id: "2", number: "2", name: "Three Sum", difficulty: "Medium", currentInterval: 1, lastSolveDate: new Date(), dueDate: new Date(), source: 'NeetCode', url: 'www.leetcode.com', isDone: false },
+]
+
+
+export default function ProblemList() { 
+  const [problems] = useState(sampleProblems);
+  
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+      <div className="problem-list-container">
+        <header className="header">
+          <div className="header-content">
+            <h1>LeetCodePracticeCompanion</h1>
+            <p>Track your progress and master coding problems</p>
+          </div>
+        </header>
+        
+        <div className="main-content">
+          <div className="problems-table">
+            <table className="problems-table">
+              <thead>
+                <tr>
+                  <th>Status</th>
+                  <th>Problem</th>
+                  <th>Difficulty</th>
+                  <th>Due Date</th>
+                  <th>Current Interval</th>
+                  <th>Last Solve Date</th>
+                  <th>Source</th>
+                  <th>Url</th>
+                </tr>
+              </thead>
+              <tbody>
+                {problems.map(problem => (
+                    <tr key={problem.id} className="problem-row"> 
+                      <td>
+                        {problem.isDone ? (
+                            <svg className="check-icon" fill="currentColor" viewBox="0 0 20 20">
+                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                            </svg>
+                        ) : (
+                            <div className="unchecked-circle"></div>
+                        )}
+                      </td>
+                      <td>
+                        <div className="name-cell">
+                          <span className="problem-id">#{problem.id}. </span>
+                          <span className="problem-name">{problem.name}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`difficulty-badge ${problem.difficulty.toLowerCase()}`}>
+                          {problem.difficulty}
+                        </span>
+                      </td>
+                      <td>{problem.dueDate.toDateString()}</td>
+                      <td>{problem.currentInterval}</td>
+                      <td>{problem.lastSolveDate.toDateString()}</td>
+                      <td>{problem.source}</td>
+                      <td>{problem.url}</td>
+                    </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          {problems.length === 0 && (
+              <div className="no-results">
+                No problems found.
+              </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+      </div>
+  )
 }
