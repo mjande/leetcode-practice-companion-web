@@ -15,6 +15,7 @@ export default function ProblemTable({ problems }: Props) {
           <table className="problems-table">
             <thead>
               <tr>
+                <th></th>
                 <th>Problem</th>
                 <th>Difficulty</th>
                 <th>Due Date</th>
@@ -26,8 +27,12 @@ export default function ProblemTable({ problems }: Props) {
               {problems.map(problem => (
                   <tr key={problem.id} className="problem-row">
                     <td>
-                      <div className="name-cell">
+                      <div className="action-cell">
                         <a href={problem.url} target="_blank" rel="noopener noreferrer"><MdLink /></a>
+                      </div>
+                    </td>
+                    <td>
+                      <div className="name-cell">
                         <div>
                           <span className="problem-id">#{problem.id}. </span>
                           <span className="problem-name">{problem.name}</span>
