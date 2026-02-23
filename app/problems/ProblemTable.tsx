@@ -2,13 +2,26 @@
 
 import './ProblemList.css';
 import { Problem } from "@/app/types/problem";
-import { MdLink } from "react-icons/md";
+import {MdLink} from "react-icons/md";
+import SolveProblemButton from "@/app/problems/solve-problem/SolveProblemButton";
+import {pluralize} from "@/lib/utils/string";
 
 type Props = {
   problems: Problem[],
 }
 
 export default function ProblemTable({ problems }: Props) {
+  function displayInterval(problem: Problem) {
+    if (problem.intervalDays === 0 && problem.intervalMonths === 0) {
+      return 'Done!'
+    }
+
+    if (problem.intervalMonths === 0)
+      return pluralize(problem.intervalDays, 'day');
+
+    return pluralize(problem.intervalMonths, 'month');
+  }
+
   return (
       <>
         <div className="problems-table">
@@ -27,8 +40,9 @@ export default function ProblemTable({ problems }: Props) {
               {problems.map(problem => (
                   <tr key={problem.id} className="problem-row">
                     <td>
-                      <div className="action-cell">
+                      <div className="actions-cell">
                         <a href={problem.url} target="_blank" rel="noopener noreferrer"><MdLink /></a>
+                        <SolveProblemButton problem={problem} />
                       </div>
                     </td>
                     <td>
@@ -45,7 +59,7 @@ export default function ProblemTable({ problems }: Props) {
                       </span>
                     </td>
                     <td>{problem.dueDate}</td>
-                    <td>{problem.isDone ? 'Done' : problem.currentInterval}</td>
+                    <td>{displayInterval(problem)}</td>
                     <td>{problem.lastSolveDate}</td>
                   </tr>
                 ))}

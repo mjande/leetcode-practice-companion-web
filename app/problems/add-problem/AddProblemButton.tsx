@@ -1,7 +1,8 @@
 'use client';
 
 import {ChangeEvent, FormEvent, useState} from "react";
-import './ProblemList.css';
+import '../ProblemList.css';
+import {useRouter} from "next/dist/client/components/navigation";
 
 export default function AddProblemButton() {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -11,7 +12,8 @@ export default function AddProblemButton() {
     name: '',
     difficulty: 'easy' as 'easy' | 'medium' | 'hard',
     url: '',
-  })
+  });
+  const router = useRouter();
 
   async function handleSubmit(e: FormEvent) {
     e.preventDefault();
@@ -24,6 +26,7 @@ export default function AddProblemButton() {
       },
       body: JSON.stringify(formData),
     });
+    setIsSubmitting(false);
 
     if (!response.ok) {
       console.error('Error adding problem:', response.status);
@@ -32,8 +35,9 @@ export default function AddProblemButton() {
     }
 
     setIsModalOpen(false);
+    router.refresh();
     alert(`Problem ${formData.number}. ${formData.name} has been added successfully.`);
-    setIsSubmitting(false);
+
   }
 
   function handleChange(e: ChangeEvent<HTMLInputElement | HTMLSelectElement>) {

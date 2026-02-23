@@ -178,7 +178,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .modal-header h2 {
@@ -279,4 +279,19 @@
     display: flex;
     gap: 0.5rem;
     align-items: center;
+}
+
+.actions-cell {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.radio-options-group {
+    margin: 0.5rem 0 0 0.5rem;
+}
+
+.radio-option {
+    display: flex;
+    gap: 0.5rem;
+    width: min-content;
 }

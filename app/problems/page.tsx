@@ -1,6 +1,6 @@
 import {Problem} from "@/app/types/problem";
 import ProblemTable from "./ProblemTable";
-import AddProblemButton from "@/app/problems/AddProblemButton";
+import AddProblemButton from "@/app/problems/add-problem/AddProblemButton";
 
 async function getProblems(): Promise<Problem[]> {
     const res = await fetch('http://localhost:5173/api/problems');

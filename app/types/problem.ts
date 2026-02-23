@@ -3,7 +3,8 @@ export type Problem = {
     number: number;
     name: string;
     difficulty: string;
-    currentInterval: string;
+    intervalDays: number;
+    intervalMonths: number;
     lastSolveDate: string;
     dueDate: string;
     url: string;
