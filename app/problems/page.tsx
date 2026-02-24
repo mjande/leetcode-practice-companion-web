@@ -1,5 +1,4 @@
 import {Problem} from "@/app/types/problem";
-import ProblemTable from "./ProblemTable";
 import ProblemListClient from "@/app/problems/ProblemListClient";
 
 async function getProblems(): Promise<Problem[]> {
