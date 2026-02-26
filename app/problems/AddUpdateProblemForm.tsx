@@ -4,7 +4,7 @@ import {Button, Group, NumberInput, Select, TextInput} from "@mantine/core";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 
-export default function AddUpdateProblemForm({ onSuccess }: { onSuccess: () => void }) {
+export default function AddUpdateProblemForm({ onClose }: { onClose: () => void }) {
   const router = useRouter();
 
   const form = useForm({
@@ -25,7 +25,7 @@ export default function AddUpdateProblemForm({ onSuccess }: { onSuccess: () => v
   async function handleSubmit(values: typeof form.values) {
     setLoading(true);
 
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/problems/`, {
+    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/problems/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -33,15 +33,16 @@ export default function AddUpdateProblemForm({ onSuccess }: { onSuccess: () => v
       body: JSON.stringify(values),
     });
 
+    setLoading(false);
+
     if (!response.ok) {
       console.error('Error adding problem:', response.status);
       alert('Failed to create problem. Please try again');
       return;
     }
 
-    setLoading(false);
     form.reset();
-    onSuccess();
+    onClose();
     router.refresh();
     alert(`Problem ${values.number}. ${values.name} has been added successfully.`);
   }
@@ -79,8 +80,8 @@ export default function AddUpdateProblemForm({ onSuccess }: { onSuccess: () => v
       />
 
       <Group justify="flex-end" mt="md">
-        <Button variant="default">Cancel</Button>
-        <Button type="submit" loading={loading}>Add Problem</Button>
+        <Button variant="default" onClick={() => onClose()}>Cancel</Button>
+        <Button type="submit" loading={loading}>Add</Button>
       </Group>
     </form>
   )
