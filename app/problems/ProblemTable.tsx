@@ -1,16 +1,17 @@
 import './ProblemList.css';
 import {Problem} from "@/app/types/problem";
 import {ActionIcon, ActionIconGroup, Badge, Center, Table, Text} from "@mantine/core";
-import {IconEdit, IconLink, IconSquareRoundedCheck} from "@tabler/icons-react";
+import {IconEdit, IconLink, IconSquareRoundedCheck, IconTrash} from "@tabler/icons-react";
 import {displayInterval} from "@/lib/utils/interval";
 
 type Props = {
   problems: Problem[],
   solveProblem: (problem: Problem) => void,
   updateProblem: (problem: Problem) => void,
+  deleteProblem: (problem: Problem) => void,
 }
 
-export default function ProblemTable({problems, solveProblem, updateProblem}: Props) {
+export default function ProblemTable({problems, solveProblem, updateProblem, deleteProblem}: Props) {
   if (problems.length === 0) {
     return (
       <Center mt="xl">
@@ -50,6 +51,9 @@ export default function ProblemTable({problems, solveProblem, updateProblem}: Pr
               </ActionIcon>
               <ActionIcon variant="default">
                 <IconEdit size={20} onClick={() => updateProblem(problem)}/>
+              </ActionIcon>
+              <ActionIcon variant="default">
+                <IconTrash size={20} onClick={() => deleteProblem(problem)}/>
               </ActionIcon>
             </ActionIconGroup>
           </Table.Td>
