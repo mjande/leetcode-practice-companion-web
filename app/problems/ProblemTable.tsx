@@ -1,21 +1,16 @@
 import './ProblemList.css';
 import {Problem} from "@/app/types/problem";
-import {pluralize} from "@/lib/utils/string";
 import {ActionIcon, ActionIconGroup, Badge, Center, Table, Text} from "@mantine/core";
-import {IconLink, IconSquareRoundedCheck} from "@tabler/icons-react";
+import {IconEdit, IconLink, IconSquareRoundedCheck} from "@tabler/icons-react";
+import {displayInterval} from "@/lib/utils/interval";
 
 type Props = {
   problems: Problem[],
   solveProblem: (problem: Problem) => void,
+  updateProblem: (problem: Problem) => void,
 }
 
-export default function ProblemTable({problems, solveProblem}: Props) {
-  function displayInterval(problem: Problem) {
-    if (problem.intervalDays === 0 && problem.intervalMonths === 0) return 'Done!'
-    if (problem.intervalMonths === 0) return pluralize(problem.intervalDays, 'day');
-    return pluralize(problem.intervalMonths, 'month');
-  }
-
+export default function ProblemTable({problems, solveProblem, updateProblem}: Props) {
   if (problems.length === 0) {
     return (
       <Center mt="xl">
@@ -53,10 +48,13 @@ export default function ProblemTable({problems, solveProblem}: Props) {
               <ActionIcon variant="default">
                 <IconSquareRoundedCheck size={20} onClick={() => solveProblem(problem)}/>
               </ActionIcon>
+              <ActionIcon variant="default">
+                <IconEdit size={20} onClick={() => updateProblem(problem)}/>
+              </ActionIcon>
             </ActionIconGroup>
           </Table.Td>
           <Table.Td>
-            <Text span fw={700}>#{problem.id}.{" "}</Text>
+            <Text span fw={700}>#{problem.number}.{" "}</Text>
             <Text span>{problem.name}</Text>
           </Table.Td>
           <Table.Td>

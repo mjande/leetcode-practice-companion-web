@@ -8,30 +8,48 @@ import AddUpdateProblemForm from "@/app/problems/AddUpdateProblemForm";
 import SolveProblemForm from "@/app/problems/SolveProblemForm";
 
 export default function ProblemListClient({ problems }: { problems: Problem[] }) {
-  const [addUpdateProblemFormOpened, setAddUpdateProblemFormOpened] = useState(false);
+  const [addProblemFormOpened, setAddProblemFormOpened] = useState(false);
+  const [updateProblemFormOpened, setUpdateProblemFormOpened] = useState(false);
   const [solveProblemFormOpened, setSolveProblemFormOpened] = useState(false);
   const [problem, setProblem] = useState<Problem | null>(null);
+
+  console.log(problems);
 
   function solveProblem(problem: Problem) {
     setSolveProblemFormOpened(true);
     setProblem(problem);
   }
 
+  function updateProblem(problem: Problem) {
+    setUpdateProblemFormOpened(true);
+    setProblem(problem);
+  }
+
   return (
     <>
       <div className="actions-container">
-        <Button variant="filled" onClick={() => setAddUpdateProblemFormOpened(true)}>Add Problem</Button>
+        <Button variant="filled" onClick={() => setAddProblemFormOpened(true)}>Add Problem</Button>
       </div>
 
-      <ProblemTable problems={problems} solveProblem={solveProblem} />
+      <ProblemTable problems={problems} solveProblem={solveProblem} updateProblem={updateProblem} />
 
       <Modal
-        opened={addUpdateProblemFormOpened}
-        onClose={() => setAddUpdateProblemFormOpened(false)}
+        opened={addProblemFormOpened}
+        onClose={() => setAddProblemFormOpened(false)}
         title="Add Problem"
         centered
       >
-        <AddUpdateProblemForm onClose={() => setAddUpdateProblemFormOpened(false)} />
+        <AddUpdateProblemForm mode="add" onClose={() => setAddProblemFormOpened(false)} />
+      </Modal>
+
+      <Modal
+        opened={updateProblemFormOpened}
+        onClose={() => setUpdateProblemFormOpened(false)}
+        title="Update Problem"
+        centered
+      >{problem &&
+        <AddUpdateProblemForm mode="update" problem={problem} onClose={() => setUpdateProblemFormOpened(false)} />
+      }
       </Modal>
 
       <Modal
