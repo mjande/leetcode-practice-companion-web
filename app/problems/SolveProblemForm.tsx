@@ -3,6 +3,8 @@ import {useForm} from "@mantine/form";
 import {useState} from "react";
 import {Problem} from "@/app/types/problem";
 import {Button, Checkbox, Group, Stack} from "@mantine/core";
+import {notifications} from "@mantine/notifications";
+import {IconCheck, IconX} from "@tabler/icons-react";
 
 type SolveProblemFormProps = {
   problem: Problem,
@@ -36,14 +38,23 @@ export default function SolveProblemForm({ problem, onClose }: SolveProblemFormP
 
     if (!response.ok) {
       console.error('Error solving problem:', response.status);
-      alert('Failed to solve problem. Please try again')
+      notifications.show({
+        message: 'Failed to solve problem. Please try again.',
+        icon: <IconX />,
+        color: 'red',
+        autoClose: false,
+      })
       return;
     }
 
     form.reset();
     onClose();
     router.refresh();
-    alert(`${problem.number}. ${problem.name} has been solved successfully.`);
+    notifications.show({
+      message: `${problem.number}. ${problem.name} has been solved successfully.`,
+      icon: <IconCheck />,
+      color: 'green',
+    })
   }
 
   return (

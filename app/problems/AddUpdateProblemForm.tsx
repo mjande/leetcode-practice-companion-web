@@ -6,6 +6,8 @@ import {useState} from "react";
 import {Problem} from "@/app/types/problem";
 import {displayInterval, intervalMappings, parseInterval} from "@/lib/utils/interval";
 import {DateInput} from "@mantine/dates";
+import {notifications} from "@mantine/notifications";
+import {IconCheck, IconX} from "@tabler/icons-react";
 
 type AddUpdateProblemFormProps = {
   mode: 'add' | 'update';
@@ -35,7 +37,6 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
 
   const [loading, setLoading] = useState(false);
 
-
   async function handleSubmit(values: typeof form.values) {
     if (mode === 'add') await handleAdd(values);
     if (mode === 'update') await handleUpdate(values);
@@ -63,14 +64,23 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
 
     if (!response.ok) {
       console.error('Error adding problem:', response.status);
-      alert('Failed to create problem. Please try again');
+      notifications.show({
+        message: 'Failed to create add problem. Please try again.',
+        icon: <IconX />,
+        color: 'red',
+        autoClose: false,
+      })
       return;
     }
 
     form.reset();
     onClose();
     router.refresh();
-    alert(`Problem ${values.number}. ${values.name} has been added successfully.`);
+    notifications.show({
+      message: `Problem ${values.number}. ${values.name} has been added successfully.`,
+      icon: <IconCheck />,
+      color: 'green',
+    });
   }
 
   async function handleUpdate(values: typeof form.values) {
@@ -102,14 +112,23 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
 
     if (!response.ok) {
       console.error('Error updating problem:', response.status);
-      alert('Failed to update problem. Please try again');
+      notifications.show({
+        message: 'Failed to update problem. Please try again.',
+        icon: <IconX />,
+        color: 'red',
+        autoClose: false,
+      })
       return;
     }
 
     form.reset();
     onClose();
     router.refresh();
-    alert(`Problem ${values.number}. ${values.name} has been updated successfully.`);
+    notifications.show({
+      message: `Problem ${values.number}. ${values.name} has been updated successfully.`,
+      icon: <IconCheck />,
+      color: 'green',
+    })
   }
 
   return (

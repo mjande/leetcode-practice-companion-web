@@ -2,6 +2,8 @@ import {Problem} from "@/app/types/problem";
 import {useRouter} from "next/navigation";
 import {useState} from "react";
 import {Button, Group, Text} from '@mantine/core';
+import {notifications} from "@mantine/notifications";
+import {IconCheck, IconX} from "@tabler/icons-react";
 
 type DeleteProblemFormProps = {
   problem: Problem,
@@ -24,13 +26,22 @@ export default function DeleteProblemForm({ problem, onClose }: DeleteProblemFor
 
     if (!response.ok) {
       console.error('Error deleting problem:', response.status);
-      alert('Failed to delete problem. Please try again.');
+      notifications.show({
+        message: 'Failed to delete problem. Please try again.',
+        icon: <IconX />,
+        color: 'red',
+        autoClose: false,
+      })
       return;
     }
 
     onClose();
     router.refresh();
-    alert(`${problem.number}. ${problem.name} has been deleted.`);
+    notifications.show({
+      message: `${problem.number}. ${problem.name} has been deleted.`,
+      icon: <IconCheck />,
+      color: 'green',
+    })
   }
 
   return (
