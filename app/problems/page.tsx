@@ -1,8 +1,12 @@
 import {Problem} from "@/app/types/problem";
 import ProblemListClient from "@/app/problems/ProblemListClient";
 
+export const dynamic = 'force-dynamic';
+
 async function getProblems(): Promise<Problem[]> {
-  const res = await fetch('http://localhost:5173/api/problems');
+  console.log("BUILD API URL:", process.env.API_URL);
+
+  const res = await fetch(`${process.env.API_URL}/problems`);
 
   if (!res.ok) {
     console.error('Failed to get problems:', res.status);
