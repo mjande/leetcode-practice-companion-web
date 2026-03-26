@@ -1,12 +1,16 @@
 import {Problem} from "@/app/types/problem";
 import ProblemListClient from "@/app/problems/ProblemListClient";
+import {Metadata} from "next";
 
 export const dynamic = 'force-dynamic';
 
-async function getProblems(): Promise<Problem[]> {
-  console.log("BUILD API URL:", process.env.API_URL);
+export const metadata: Metadata = {
+  title: 'LeetCode Practice Companion',
+  icons: ['./brand-leetcode.svg'],
+}
 
-  const res = await fetch(`${process.env.API_URL}/problems`);
+async function getProblems(): Promise<Problem[]> {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/problems`);
 
   if (!res.ok) {
     console.error('Failed to get problems:', res.status);
