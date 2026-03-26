@@ -20,6 +20,18 @@ export default function ProblemTable({problems, solveProblem, updateProblem, del
     )
   }
 
+  function calculateDueDate(problem: Problem): string {
+    const dueDate = new Date(problem.lastSolveDate);
+    dueDate.setMonth(dueDate.getMonth() + problem.intervalMonths);
+    dueDate.setDate(dueDate.getDate() + problem.intervalDays);
+
+    const yyyy = dueDate.getFullYear();
+    const mm = String(dueDate.getMonth() + 1).padStart(2, "0");
+    const dd = String(dueDate.getDate()).padStart(2, "0");
+
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
   return (
     <Table highlightOnHover striped verticalSpacing="sm">
       <Table.Thead>
@@ -75,7 +87,7 @@ export default function ProblemTable({problems, solveProblem, updateProblem, del
               {problem.difficulty}
             </Badge>
           </Table.Td>
-          <Table.Td>{problem.dueDate}</Table.Td>
+          <Table.Td>{calculateDueDate(problem)}</Table.Td>
           <Table.Td>{displayInterval(problem)}</Table.Td>
           <Table.Td>{problem.lastSolveDate}</Table.Td>
         </Table.Tr>

@@ -6,7 +6,6 @@ export type Problem = {
     intervalDays: number;
     intervalMonths: number;
     lastSolveDate: string;
-    dueDate: string;
     url: string;
     isDone: boolean;
 };

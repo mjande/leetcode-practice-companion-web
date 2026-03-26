@@ -26,7 +26,6 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
       url: problem?.url ?? '',
       interval: problem?.intervalDays || problem?.intervalMonths ? displayInterval(problem) : '',
       lastSolveDate: problem?.lastSolveDate,
-      dueDate: problem?.dueDate,
     },
     validate: {
       name: (value) => value.trim().length === 0 ? 'Name is required' : null,
@@ -97,7 +96,6 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
       intervalDays: interval.intervalDays,
       intervalMonths: interval.intervalMonths,
       lastSolveDate: values.lastSolveDate,
-      dueDate: values.dueDate,
     }
 
     const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/problems/${problem?.id}`, {
@@ -177,13 +175,6 @@ export default function AddUpdateProblemForm({ mode, problem, onClose }: AddUpda
           valueFormat="YYYY-MM-DD"
           clearable
           {...form.getInputProps('lastSolveDate')}
-        />
-
-        <DateInput
-          label="Due Date"
-          valueFormat="YYYY-MM-DD"
-          clearable
-          {...form.getInputProps('dueDate')}
         />
       </>
       }
