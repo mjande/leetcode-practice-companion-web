@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 }
 
 async function getProblems(): Promise<Problem[]> {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/problems`);
+  const res = await fetch(`${process.env.API_URL}/problems`);
 
   if (!res.ok) {
     console.error('Failed to get problems:', res.status);

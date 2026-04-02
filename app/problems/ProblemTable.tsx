@@ -20,14 +20,29 @@ export default function ProblemTable({problems, solveProblem, updateProblem, del
     )
   }
 
-  function calculateDueDate(problem: Problem): string {
-    const dueDate = new Date(problem.lastSolveDate);
-    dueDate.setMonth(dueDate.getMonth() + problem.intervalMonths);
-    dueDate.setDate(dueDate.getDate() + problem.intervalDays);
+  function calculateDueDate(problem: Problem): string | null {
+    if (!problem.lastSolveDate) return null
 
-    const yyyy = dueDate.getFullYear();
-    const mm = String(dueDate.getMonth() + 1).padStart(2, "0");
-    const dd = String(dueDate.getDate()).padStart(2, "0");
+    let [dueYear, dueMonth, dueDay] = problem.lastSolveDate.split('-').map(Number);
+
+    // Create a Date object with month as 1-based to get last day of month
+    const daysInMonth = new Date(dueYear, dueMonth, 0).getDate();
+
+    dueDay += problem.intervalDays;
+    if (dueDay > daysInMonth) {
+      dueDay -= daysInMonth;
+      dueMonth += 1;
+    }
+
+    dueMonth += problem.intervalMonths;
+    if (dueMonth > 12) {
+      dueMonth %= 12;
+      dueYear += 1;
+    }
+
+    const yyyy = dueYear;
+    const mm = dueMonth.toString().padStart(2, '0');
+    const dd = dueDay.toString().padStart(2, '0');
 
     return `${yyyy}-${mm}-${dd}`;
   }

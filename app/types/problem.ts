@@ -5,7 +5,7 @@ export type Problem = {
     difficulty: string;
     intervalDays: number;
     intervalMonths: number;
-    lastSolveDate: string;
+    lastSolveDate?: string;
     url: string;
     isDone: boolean;
 };
